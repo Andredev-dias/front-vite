@@ -1,59 +1,65 @@
 
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 import { api } from './api/api'
-import './App.css'
+import './App.module.css'
 
 function App() {
-  const [data, setData] = useState([])
-  const [data2, setData2] = useState([])
-  const [users, setUsers] = useState([])
+  const navigate = useNavigate()
 
-
-
-  useEffect(() => {
-    api.get('/').then((res) => {
-      setData(res.data)
-    })
-  }, [])
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
-    api.get('/funcionarios').then((res) => {
-      setData2(res.data.items)
-    })
-  }, [])
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+      navigate('/usersList')
+    }
+  }, [navigate])
 
-  useEffect(() => {
-    api.get('/users').then((res) => {
-      setUsers(res.data)
-    })
-  }, [])
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await api.post('/login', { email, password })
+      const  user  = response.data
 
+      localStorage.setItem('user', JSON.stringify(user))
+      setUser(user)
+      navigate('/usersList')
+    } catch (err) {
+      setMessage('Erro no login: ' + (err.response?.data?.message || 'verifique os dados'))
+    }
+  }
 
   return (
-    <>
-      {data}
-      <br /><br /><br />
-      {data2.map((item) => {
-        return (
-          <div key={item.id}>
-            <h3>{item.nome}</h3>
-            <p>{item.cargo}</p>
-            <p>{item.idade}</p>
-            <p>{item.temLicenca ? "Habilitado 😁" : "Sem premissao 🤬"}</p>
-          </div>
-        )
-      })}
-      <br /><br /><br />
-      {users.map((item) => {
-        return (
-          <div key={item.id}>
-            <h3>{item.name}</h3>
-            <p>{item.email}</p>
-          </div>
-        )
-      })}
-    </>
+    <div style={{ padding: '2rem' }}>
+      <form onSubmit={handleLogin}>
+        <h2>Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <br />
+        <input
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <br />
+        <button type="submit">Entrar</button>
+        <p>{message}</p>
+      </form>
+    </div>
   )
 }
 
 export default App
+
