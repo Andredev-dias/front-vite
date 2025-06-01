@@ -9,9 +9,10 @@ import ProductsList from './ProductsList.jsx'
 import ProductsCreate from './ProductsCreate.jsx'
 import UsersCreate from './usersCreate.jsx'
 
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-     <BrowserRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/dashboard" element={<Dashboard />} />

@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router"
+import MenuImg from '../assets/menu.png'
+import styles from './menu.module.css'
+import { useState } from "react"
 
 export const Menu = () => {
     const navigate = useNavigate()
+    const [open, setOpen] = useState(false)
 
     const goToDashboard = () => navigate(`/dashboard`)
     const goToUsers = () => navigate(`/usersList`)
@@ -13,15 +17,16 @@ export const Menu = () => {
         navigate('/')
     }
 
-
+    console.log(open)
     return(
-        <nav>
-            <p onClick={goToDashboard}>Dashboard</p>
-            <p onClick={goToCreateUser}>Criar Usuario</p>
-            <p onClick={goToUsers}>Lista de Usuarios</p>
-            <p onClick={goToCreateProducts}>Criar Produto</p>
-            <p onClick={goToProducts}>Lista de Produtos</p>
-            <p onClick={logout}>Sair</p>
+        <nav className={open ? styles.navBar : styles.navBarClosed}>
+          <img src={MenuImg} alt="Menu" onClick={() => setOpen(prev => !prev)} />
+            <p onClick={goToDashboard}>{open && 'Dashboard'}</p>
+            <p onClick={goToCreateUser}>{open && 'Criar Usuario'}</p>
+            <p onClick={goToUsers}>{open && 'Lista de Usuarios'}</p>
+            <p onClick={goToCreateProducts}>{open && 'Criar Produto'}</p>
+            <p onClick={goToProducts}>{open && 'Lista de Produtos'}</p>
+            <p onClick={logout}>{open && 'Sair'}</p>
         </nav>
     )
 }

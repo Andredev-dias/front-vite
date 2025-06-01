@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { api } from './api/api'
+import { Menu } from "./components/menu"
+
 
 function ProductsCreate() {
   const navigate = useNavigate()
@@ -35,6 +37,8 @@ function ProductsCreate() {
   }
 
   return (
+    <section>
+    <Menu/>
     <div style={{ padding: '2rem' }}>
       <h1>Criar novo produto</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '400px' }}>
@@ -76,6 +80,7 @@ function ProductsCreate() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}
     </div>
+    </section>
   )
 }
 

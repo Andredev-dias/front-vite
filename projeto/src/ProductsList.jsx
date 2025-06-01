@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api } from './api/api'
 import { useNavigate } from 'react-router'
+import { Menu } from "./components/menu"
 
 function ProductsList() {
   const navigate = useNavigate()
@@ -66,6 +67,8 @@ function ProductsList() {
   if (error) return <p>{error}</p>
 
   return (
+    <section>
+    <Menu/>
     <div style={{ padding: '2rem' }}>
       <h1>Lista de produtos</h1>
       <ul>
@@ -113,6 +116,7 @@ function ProductsList() {
         ))}
       </ul>
     </div>
+    </section>
   )
 }
 

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { api } from './api/api'
 import { useNavigate } from 'react-router'
+import { Menu } from "./components/menu"
+
 
 function UsersList() {
   const navigate = useNavigate()
@@ -65,6 +67,8 @@ function UsersList() {
   if (error) return <p>{error}</p>
 
   return (
+    <section>
+    <Menu/>
     <div style={{ padding: '2rem' }}>
       <h1>Lista de usuários</h1>
       <ul>
@@ -110,6 +114,7 @@ function UsersList() {
         ))}
       </ul>
     </div>
+    </section>
   )
 }
 
